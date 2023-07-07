@@ -1,10 +1,10 @@
-// import { useState } from "react";
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Layout/Header";
 
-import Modal from "./components/UI/Modal";
 import Meals from "./components/Meals/Meals";
+import Cart from "./components/Cart/Cart";
+import CartProvider from "./store/CartProvider";
 function App() {
   const [isShowCart, setIsShowCart] = useState(false);
 
@@ -16,11 +16,11 @@ function App() {
   };
 
   return (
-    <div>
-      {isShowCart && <Modal onCloseCart={closeCartHandler} />}
+    <CartProvider>
+      {isShowCart && <Cart onCloseCart={closeCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <Meals />
-    </div>
+    </CartProvider>
   );
 }
 

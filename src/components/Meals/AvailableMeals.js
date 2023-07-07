@@ -22,10 +22,12 @@ const AvailableMeals = props => {
   const listMeal = mealList.map(item => {
     return (
       <MealItem
+        id={item.id}
         key={item.id}
         mealName={item.name}
         description={item.describe}
         price={item.price}
+        item={item}
       />
     );
   });
