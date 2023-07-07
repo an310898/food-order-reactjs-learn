@@ -14,13 +14,15 @@ const Cart = props => {
       </ul>
       <div className={classes.total}>
         <span>Total Amount</span>
-        <span>${ctx.totalAmount}</span>
+        <span>${ctx.totalAmount.toFixed(2)}</span>
       </div>
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={props.onCloseCart}>
           Close
         </button>
-        <button className={classes.button}>Order</button>
+        {ctx.item.length > 0 && (
+          <button className={classes.button}>Order</button>
+        )}
       </div>
     </Modal>
   );

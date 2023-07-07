@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef } from "react";
 import Input from "../../UI/Input";
 import classes from "./MealItemForm.module.css";
 import CartContext from "../../../store/cart-context";
@@ -6,20 +6,16 @@ import CartContext from "../../../store/cart-context";
 const MealItemForm = props => {
   const ctx = useContext(CartContext);
 
-  const [amount, setAmount] = useState(1);
-
-  const onChangeAmount = e => {
-    setAmount(e.target.value);
-  };
+  const amountInputRef = useRef();
 
   const addCartItemHandler = e => {
     e.preventDefault();
-    const item = { ...props.item, amount };
+    const item = { ...props.item, amount: +amountInputRef.current.value };
     ctx.addItem(item);
   };
 
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={addCartItemHandler}>
       <Input
         lable="Amount"
         input={{
@@ -28,13 +24,11 @@ const MealItemForm = props => {
           min: "1",
           step: "1",
           max: "5",
-          defaultValue: amount,
-          onChange: onChangeAmount,
+          defaultValue: "1",
         }}
+        ref={amountInputRef}
       />
-      <button type="submit" onClick={addCartItemHandler}>
-        + Add
-      </button>
+      <button type="submit">+ Add</button>
     </form>
   );
 };

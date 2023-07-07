@@ -5,22 +5,26 @@ import React, { useContext } from "react";
 
 const CartItem = props => {
   const ctx = useContext(CartContext);
-  console.log("🚀 ~ file: CartItem.js:8 ~ CartItem ~ ctx:", ctx);
-
+  const onAddItemHandler = item => {
+    console.log(item);
+  };
+  const onRemoveItemHandler = id => {
+    ctx.removeItem(id);
+  };
   const Item = () => {
-    return ctx.item.map(x => {
+    return ctx.item.map((item, index) => {
       return (
-        <li className={classes["cart-item"]} key={x.id}>
+        <li className={classes["cart-item"]} key={index}>
           <div>
-            <h2>{x.name}</h2>
+            <h2>{item.name}</h2>
             <div className={classes.summary}>
-              <div className={classes.price}>${x.price}</div>
-              <div className={classes.amount}>x{x.amount}</div>
+              <div className={classes.price}>${item.price}</div>
+              <div className={classes.amount}>x{item.amount}</div>
             </div>
           </div>
           <div className={classes.actions}>
-            <button>+</button>
-            <button>-</button>
+            <button onClick={onAddItemHandler.bind(null, item)}>+</button>
+            <button onClick={onRemoveItemHandler.bind(null, item.id)}>-</button>
           </div>
         </li>
       );
