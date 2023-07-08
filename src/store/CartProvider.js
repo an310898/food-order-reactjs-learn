@@ -9,14 +9,16 @@ const defautCartState = {
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
     let newCartArr = [...state.item];
-    let flag = false;
-    newCartArr.forEach(x => {
-      if (x.id === action.item.id) {
-        x.amount += action.item.amount;
-        flag = true;
-      }
-    });
-    if (!flag) {
+    const exitsCartItemIndex = state.item.findIndex(
+      x => x.id === action.item.id
+    );
+    const exitsItem = newCartArr[exitsCartItemIndex];
+    if (exitsCartItemIndex !== -1) {
+      newCartArr[exitsCartItemIndex] = {
+        ...exitsItem,
+        amount: exitsItem.amount + action.item.amount,
+      };
+    } else {
       newCartArr = newCartArr.concat(action.item);
     }
 
@@ -30,19 +32,21 @@ const cartReducer = (state, action) => {
 
   if (action.type === "REMOVE") {
     let newCartArr = [...state.item];
-    let itemPrice = 0;
-    newCartArr.forEach((x, index) => {
-      if (x.id === action.id) {
-        itemPrice = x.price;
-        if (x.amount === 1) {
-          newCartArr.splice(index, 1);
-        } else {
-          x.amount -= 1;
-        }
-      }
-    });
 
-    const newTotalAmount = state.totalAmount.toFixed(2) - itemPrice.toFixed(2);
+    const exitsCartItemIndex = newCartArr.findIndex(x => x.id === action.id);
+    const exitsItem = newCartArr[exitsCartItemIndex];
+
+    if (exitsItem.amount === 1) {
+      newCartArr = newCartArr.filter(x => x.id !== exitsItem.id);
+    } else if (exitsItem.amount > 1) {
+      newCartArr[exitsCartItemIndex] = {
+        ...exitsItem,
+        amount: exitsItem.amount - 1,
+      };
+    }
+
+    const newTotalAmount =
+      state.totalAmount.toFixed(2) - exitsItem.price.toFixed(2);
 
     return {
       item: newCartArr,

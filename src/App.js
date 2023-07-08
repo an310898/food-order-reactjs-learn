@@ -14,12 +14,13 @@ function App() {
   const closeCartHandler = () => {
     setIsShowCart(false);
   };
-
   return (
     <CartProvider>
       {isShowCart && <Cart onCloseCart={closeCartHandler} />}
       <Header onShowCart={showCartHandler} />
-      <Meals />
+      <main>
+        <Meals />
+      </main>
     </CartProvider>
   );
 }
