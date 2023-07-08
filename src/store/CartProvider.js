@@ -8,22 +8,41 @@ const defautCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
-    const newCartArr = state.item.concat(action.item);
+    let newCartArr = [...state.item];
+    let flag = false;
+    newCartArr.forEach(x => {
+      if (x.id === action.item.id) {
+        x.amount += action.item.amount;
+        flag = true;
+      }
+    });
+    if (!flag) {
+      newCartArr = newCartArr.concat(action.item);
+    }
+
     const newTotalAmount =
       state.totalAmount + action.item.amount * action.item.price;
-
     return {
       item: newCartArr,
       totalAmount: newTotalAmount,
     };
   }
+
   if (action.type === "REMOVE") {
-    const newCartArr = state.item.filter(item => {
-      return item.id !== action.id;
+    let newCartArr = [...state.item];
+    let itemPrice = 0;
+    newCartArr.forEach((x, index) => {
+      if (x.id === action.id) {
+        itemPrice = x.price;
+        if (x.amount === 1) {
+          newCartArr.splice(index, 1);
+        } else {
+          x.amount -= 1;
+        }
+      }
     });
-    const newTotalAmount = newCartArr.reduce((curTotal, item) => {
-      return curTotal + item.price * item.amount;
-    }, 0);
+
+    const newTotalAmount = state.totalAmount.toFixed(2) - itemPrice.toFixed(2);
 
     return {
       item: newCartArr,

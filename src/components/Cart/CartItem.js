@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 const CartItem = props => {
   const ctx = useContext(CartContext);
   const onAddItemHandler = item => {
-    console.log(item);
+    ctx.addItem({ ...item, amount: 1 });
   };
   const onRemoveItemHandler = id => {
     ctx.removeItem(id);
