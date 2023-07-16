@@ -6,23 +6,23 @@ import Meals from "./components/Meals/Meals";
 import Cart from "./components/Cart/Cart";
 import CartProvider from "./store/CartProvider";
 function App() {
-  const [isShowCart, setIsShowCart] = useState(false);
+	const [isShowCart, setIsShowCart] = useState(false);
 
-  const showCartHandler = () => {
-    setIsShowCart(true);
-  };
-  const closeCartHandler = () => {
-    setIsShowCart(false);
-  };
-  return (
-    <CartProvider>
-      {isShowCart && <Cart onCloseCart={closeCartHandler} />}
-      <Header onShowCart={showCartHandler} />
-      <main>
-        <Meals />
-      </main>
-    </CartProvider>
-  );
+	const showCartHandler = () => {
+		setIsShowCart(true);
+	};
+	const closeCartHandler = () => {
+		setIsShowCart(false);
+	};
+	return (
+		<CartProvider>
+			{isShowCart && <Cart onCloseCart={closeCartHandler} />}
+			<Header onShowCart={showCartHandler} />
+			<main>
+				<Meals />
+			</main>
+		</CartProvider>
+	);
 }
 
 export default App;
